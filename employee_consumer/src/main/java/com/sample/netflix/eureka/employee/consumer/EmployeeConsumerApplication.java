@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-
 public class EmployeeConsumerApplication {
 
 	public static void main(String[] args) {
