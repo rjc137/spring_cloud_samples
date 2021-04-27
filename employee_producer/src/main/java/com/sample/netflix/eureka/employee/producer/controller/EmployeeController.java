@@ -13,7 +13,7 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 public class EmployeeController {
 
 	@GetMapping
-	@CircuitBreaker(fallbackMethod = "fallback", name = "firstPage_circuit_breaker")
+	@CircuitBreaker(fallbackMethod = "fallback", name = "firstPage-circuit-breaker")
 	public Employee firstPage() {
 		throw new RuntimeException();
 		//return new Employee("empid_1", "ruchira", "software engineer", 3000);

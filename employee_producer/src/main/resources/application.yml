@@ -1,0 +1,44 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: employee_producer
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8090/eureka
+  instance:
+    appname: ${spring.application.name}
+    instance-id: "${spring.application.name}:${spring.application.instance_id:${random.value}}"    
+
+resilience4j.circuitbreaker:
+    configs:
+        default:
+            registerHealthIndicator: true
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            permittedNumberOfCallsInHalfOpenState: 3
+            automaticTransitionFromOpenToHalfOpenEnabled: true
+            waitDurationInOpenState: 5s
+            failureRateThreshold: 50
+            eventConsumerBufferSize: 10
+            recordExceptions:
+                - org.springframework.web.client.HttpServerErrorException
+                - java.util.concurrent.TimeoutException
+                - java.io.IOException
+        shared:
+            slidingWindowSize: 100
+            permittedNumberOfCallsInHalfOpenState: 30
+            waitDurationInOpenState: 1s
+            failureRateThreshold: 50
+            eventConsumerBufferSize: 10
+    instances:
+        firstPage-circuit-breaker:
+            registerHealthIndicator: true
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 10
+            permittedNumberOfCallsInHalfOpenState: 3
+            waitDurationInOpenState: 5s
+            failureRateThreshold: 50
+            eventConsumerBufferSize: 10
